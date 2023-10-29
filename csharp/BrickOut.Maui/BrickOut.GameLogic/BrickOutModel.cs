@@ -88,7 +88,3 @@ public class Paddle : DisplayItem
         Location = new Point(x, y);
     }
 }
-
-public class BrickOutGame
-{
-}

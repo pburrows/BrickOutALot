@@ -25,10 +25,10 @@ namespace BrickOut.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        public GameBoard CurrentGame { get; set; } = GameBoard.NewGame();
-        public DispatcherTimer refreshTimer;
-        public Rectangle paddleRectangle;
-        public Rectangle ballRectangle;
+        private BrickOutGame currentGame { get; set; } = new(); // GameBoard.NewGame();
+        private DispatcherTimer refreshTimer;
+        private Rectangle paddleRectangle;
+        private Rectangle ballRectangle;
 
         public MainWindow()
         {
@@ -55,7 +55,7 @@ namespace BrickOut.Wpf
         private void GameCanvasOnMouseMove(object sender, MouseEventArgs e)
         {
             var position = e.GetPosition(GameCanvas);
-            CurrentGame.Paddle.SetLocation((int)position.X, 0);
+            currentGame.GameBoard.Paddle.SetLocation((int)position.X, 0);
         }
 
         private List<Color> BrickColors = new()
@@ -76,25 +76,25 @@ namespace BrickOut.Wpf
                 return;
             }
 
-            Canvas.SetLeft(paddleRectangle, CurrentGame.Paddle.Location.X);
+            Canvas.SetLeft(paddleRectangle, currentGame.GameBoard.Paddle.Location.X);
 
             UpdateBallPosition();
         }
 
         private void UpdateBallPosition()
         {
-            var newX = CurrentGame.Ball.Location.X + CurrentGame.Ball.VelocityX;
-            var newY = CurrentGame.Ball.Location.Y + CurrentGame.Ball.VelocityY;
-            CurrentGame.Ball.SetLocation(newX, newY);
-            Canvas.SetLeft(ballRectangle, CurrentGame.Ball.Location.X);
-            Canvas.SetTop(ballRectangle, CurrentGame.Ball.Location.Y);
+            var newX = currentGame.GameBoard.Ball.Location.X + currentGame.GameBoard.Ball.VelocityX;
+            var newY = currentGame.GameBoard.Ball.Location.Y + currentGame.GameBoard.Ball.VelocityY;
+            currentGame.GameBoard.Ball.SetLocation(newX, newY);
+            Canvas.SetLeft(ballRectangle, currentGame.GameBoard.Ball.Location.X);
+            Canvas.SetTop(ballRectangle, currentGame.GameBoard.Ball.Location.Y);
         }
 
         private void DrawGameBoard()
         {
             GameCanvas.Children.Clear();
 
-            foreach (var brick in CurrentGame.Bricks)
+            foreach (var brick in currentGame.GameBoard.Bricks)
             {
                 AddRectangleToCanvas(
                     GetNextBrickColorBrush(),
@@ -106,17 +106,17 @@ namespace BrickOut.Wpf
 
             paddleRectangle = AddRectangleToCanvas(
                 new SolidColorBrush(Colors.Red),
-                CurrentGame.Paddle.Location.X,
-                CurrentGame.Paddle.Location.Y,
-                CurrentGame.Paddle.Shape.Width,
-                CurrentGame.Paddle.Shape.Height);
+                currentGame.GameBoard.Paddle.Location.X,
+                currentGame.GameBoard.Paddle.Location.Y,
+                currentGame.GameBoard.Paddle.Shape.Width,
+                currentGame.GameBoard.Paddle.Shape.Height);
 
             ballRectangle = AddRectangleToCanvas(
                 new SolidColorBrush(Colors.Green),
-                CurrentGame.Ball.Location.X,
-                CurrentGame.Ball.Location.Y,
-                CurrentGame.Ball.Shape.Width,
-                CurrentGame.Ball.Shape.Height);
+                currentGame.GameBoard.Ball.Location.X,
+                currentGame.GameBoard.Ball.Location.Y,
+                currentGame.GameBoard.Ball.Shape.Width,
+                currentGame.GameBoard.Ball.Shape.Height);
         }
 
         private Rectangle AddRectangleToCanvas(SolidColorBrush brush, int x, int y, int width, int height)
