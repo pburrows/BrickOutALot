@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickOut.GameLogic", "BrickOut.GameLogic\BrickOut.GameLogic.csproj", "{FBA5E679-6B55-44CB-88D4-09134E146390}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrickOut.Wpf", "BrickOut.Wpf\BrickOut.Wpf.csproj", "{4C307C15-678A-4C66-ADA0-A2B30FE4D4DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FBA5E679-6B55-44CB-88D4-09134E146390}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBA5E679-6B55-44CB-88D4-09134E146390}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBA5E679-6B55-44CB-88D4-09134E146390}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBA5E679-6B55-44CB-88D4-09134E146390}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C307C15-678A-4C66-ADA0-A2B30FE4D4DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C307C15-678A-4C66-ADA0-A2B30FE4D4DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C307C15-678A-4C66-ADA0-A2B30FE4D4DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C307C15-678A-4C66-ADA0-A2B30FE4D4DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
