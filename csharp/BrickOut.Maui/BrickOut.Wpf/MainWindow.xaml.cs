@@ -55,7 +55,7 @@ namespace BrickOut.Wpf
         private void GameCanvasOnMouseMove(object sender, MouseEventArgs e)
         {
             var position = e.GetPosition(GameCanvas);
-            CurrentGame.Paddle.Location = new System.Drawing.Point((int)position.X, 0);
+            CurrentGame.Paddle.SetLocation((int)position.X, 0);
         }
 
         private List<Color> BrickColors = new()
@@ -75,8 +75,19 @@ namespace BrickOut.Wpf
             {
                 return;
             }
-            
+
             Canvas.SetLeft(paddleRectangle, CurrentGame.Paddle.Location.X);
+
+            UpdateBallPosition();
+        }
+
+        private void UpdateBallPosition()
+        {
+            var newX = CurrentGame.Ball.Location.X + CurrentGame.Ball.VelocityX;
+            var newY = CurrentGame.Ball.Location.Y + CurrentGame.Ball.VelocityY;
+            CurrentGame.Ball.SetLocation(newX, newY);
+            Canvas.SetLeft(ballRectangle, CurrentGame.Ball.Location.X);
+            Canvas.SetTop(ballRectangle, CurrentGame.Ball.Location.Y);
         }
 
         private void DrawGameBoard()

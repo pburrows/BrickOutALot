@@ -15,9 +15,9 @@ public class GameBoard
     {
         var board = new GameBoard();
 
-        board.Paddle = new Paddle(0,635);
+        board.Paddle = new Paddle(0, 635);
         board.Ball = new Ball(20, 630);
-        
+
         // create bricks
         for (var row = 0; row < 6; row++)
         {
@@ -33,7 +33,6 @@ public class GameBoard
         return board;
     }
 }
-
 
 public interface DisplayItem
 {
@@ -51,7 +50,6 @@ public class Brick : DisplayItem
         Shape = new Size(20, 10);
         Location = new Point(x, y);
     }
-    
 }
 
 public class Ball : DisplayItem
@@ -59,9 +57,17 @@ public class Ball : DisplayItem
     public Size Shape { get; set; }
     public Point Location { get; set; }
 
+    public int VelocityX { get; set; } = 8;
+    public int VelocityY { get; set; } = -8;
+
     public Ball(int x, int y)
     {
         Shape = new Size(5, 5);
+        Location = new Point(x, y);
+    }
+
+    public void SetLocation(int x, int y)
+    {
         Location = new Point(x, y);
     }
 }
@@ -76,6 +82,13 @@ public class Paddle : DisplayItem
         Shape = new Size(40, 5);
         Location = new Point(x, y);
     }
+
+    public void SetLocation(int x, int y)
+    {
+        Location = new Point(x, y);
+    }
 }
 
-public class BrickOutGame {}
+public class BrickOutGame
+{
+}
