@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using System.Windows.Threading;
 using BrickOut.GameLogic;
 using Color = System.Windows.Media.Color;
 using ColorConverter = System.Windows.Media.ColorConverter;
@@ -25,6 +26,9 @@ namespace BrickOut.Wpf
     public partial class MainWindow : Window
     {
         public GameBoard CurrentGame { get; set; } = GameBoard.NewGame();
+        public DispatcherTimer refreshTimer;
+        public Rectangle paddleRectangle;
+        public Rectangle ballRectangle;
 
         public MainWindow()
         {
@@ -36,12 +40,22 @@ namespace BrickOut.Wpf
             GameCanvas.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F5E2E0"));
             GameCanvas.MouseMove += GameCanvasOnMouseMove;
             DrawGameBoard();
+            refreshTimer = new DispatcherTimer();
+            refreshTimer.Interval = new TimeSpan(0, 0, 0, 0, 33);
+            refreshTimer.Tick += RefreshTimerOnTick;
+            refreshTimer.Start();
         }
+
+        private void RefreshTimerOnTick(object? sender, EventArgs e)
+        {
+            UpdateGameBoard();
+        }
+
 
         private void GameCanvasOnMouseMove(object sender, MouseEventArgs e)
         {
             var position = e.GetPosition(GameCanvas);
-            // CurrentGame.Paddle.Shape  // .X = position.X;
+            CurrentGame.Paddle.Location = new System.Drawing.Point((int)position.X, 0);
         }
 
         private List<Color> BrickColors = new()
@@ -55,6 +69,15 @@ namespace BrickOut.Wpf
             (Color)ColorConverter.ConvertFromString("#6D2B22"),
         };
 
+        private void UpdateGameBoard()
+        {
+            if (paddleRectangle == null)
+            {
+                return;
+            }
+            
+            Canvas.SetLeft(paddleRectangle, CurrentGame.Paddle.Location.X);
+        }
 
         private void DrawGameBoard()
         {
@@ -70,22 +93,22 @@ namespace BrickOut.Wpf
                     brick.Shape.Height);
             }
 
-            AddRectangleToCanvas(
+            paddleRectangle = AddRectangleToCanvas(
                 new SolidColorBrush(Colors.Red),
                 CurrentGame.Paddle.Location.X,
                 CurrentGame.Paddle.Location.Y,
                 CurrentGame.Paddle.Shape.Width,
                 CurrentGame.Paddle.Shape.Height);
-            
-             AddRectangleToCanvas(
-                            new SolidColorBrush(Colors.Green),
-                            CurrentGame.Ball.Location.X,
-                            CurrentGame.Ball.Location.Y,
-                            CurrentGame.Ball.Shape.Width,
-                            CurrentGame.Ball.Shape.Height);
+
+            ballRectangle = AddRectangleToCanvas(
+                new SolidColorBrush(Colors.Green),
+                CurrentGame.Ball.Location.X,
+                CurrentGame.Ball.Location.Y,
+                CurrentGame.Ball.Shape.Width,
+                CurrentGame.Ball.Shape.Height);
         }
 
-        private void AddRectangleToCanvas(SolidColorBrush brush, int x, int y, int width, int height)
+        private Rectangle AddRectangleToCanvas(SolidColorBrush brush, int x, int y, int width, int height)
         {
             var wpfRect = new Rectangle();
             wpfRect.Fill = brush;
@@ -94,9 +117,11 @@ namespace BrickOut.Wpf
             GameCanvas.Children.Add(wpfRect);
             Canvas.SetTop(wpfRect, y);
             Canvas.SetLeft(wpfRect, x);
+            return wpfRect;
         }
 
         private int nextBrickColorIndex = 0;
+
         private SolidColorBrush GetNextBrickColorBrush()
         {
             var brush = new SolidColorBrush(BrickColors[nextBrickColorIndex]);
