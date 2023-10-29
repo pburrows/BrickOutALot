@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BrickOut.Wpf"
         mc:Ignorable="d"
         Loaded="MainWindow_OnLoaded"
-        Title="BrickOut" Height="700" Width="480">
+        Title="BrickOut" Height="700" Width="495">
     <Canvas Name="GameCanvas">
 
     </Canvas>

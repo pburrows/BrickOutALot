@@ -83,9 +83,8 @@ namespace BrickOut.Wpf
 
         private void UpdateBallPosition()
         {
-            var newX = currentGame.GameBoard.Ball.Location.X + currentGame.GameBoard.Ball.VelocityX;
-            var newY = currentGame.GameBoard.Ball.Location.Y + currentGame.GameBoard.Ball.VelocityY;
-            currentGame.GameBoard.Ball.SetLocation(newX, newY);
+            currentGame.UpdateBallPosition();
+            
             Canvas.SetLeft(ballRectangle, currentGame.GameBoard.Ball.Location.X);
             Canvas.SetTop(ballRectangle, currentGame.GameBoard.Ball.Location.Y);
         }
